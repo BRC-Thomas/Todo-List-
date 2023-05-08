@@ -10,7 +10,7 @@ const [dataArr,setDataArr] = useState([
   {txt: 'Sortir le chien', id: uuidv4()}
 ]);
 
-
+const [stateInput, setStateInput]= useState();
 
 const deleteElement = id => {
   // console.log(id);
@@ -21,22 +21,40 @@ const deleteElement = id => {
   setDataArr(filteredState);
 }
 
+const linkedInput = e => {
+  setStateInput(e);
+}
+
+const addTodo = e => {
+  e.preventDefault();
+
+  const newArray = [...dataArr];
+  const newTodo = {};
+
+  newTodo.txt = stateInput;
+  newTodo.id = uuidv4();
+
+  newArray.push(newTodo);
+  setDataArr(newArray);
+  setStateInput('');
+}
 
   return (
     <div className="pt-16 pb-20 px-4 max-w-7xl mx-auto sm:px-6 lg:pb-28 lg:px-8"> 
 
-      <form className="mb-3 max-w-lg mx-auto">
-        <label htmlFor="todo" className="form-label text-sm font-medium text-slate-700">
-          Chose à faire
-        </label>
+      <form onSubmit={e => addTodo(e)} className="mb-3 max-w-lg mx-auto" >
+        <div className="container mx-auto flex">
         <input 
+        onInput={e => linkedInput(e.target.value)}
+        value={stateInput}
         type="text" 
-        className="form-input max-w-lg mx-auto mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1" 
-        id="todo" />
-        <button className="btn p-1 rounded bg-blue-400 block mt-3 hover:bg-blue-500 active:bg-blue-600 focus:outline-none focus:ring focus:ring-blue text-slate-900">Ajouter</button>
+        className="form-input max-w-lg mx-auto px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-offset-0 outline-indigo-200  block w-full rounded-l-lg sm:text-sm" 
+        id="todo" required placeholder="Ajoutez une tâche"/>
+        <button className="btn px-6 rounded-r-lg bg-gray-200 block hover:bg-gray-300 active:bg-gray-600 focus:outline-offset-0 outline-indigo-200 text-slate-900">Ajouter</button>
+        </div>
       </form>
         
-      <h4 class="text-2xl tracking-tight font-extrabold text-gray-900 text-center ">Liste de chose à faire :</h4>
+      <h4 className="text-2xl tracking-tight font-extrabold text-gray-900 text-center ">Liste de chose à faire :</h4>
 
       <ul role="list" className="mt-10 max-w-lg mx-auto">
 
